@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Dec 09, 2023 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Систем Крафтинг. Часть 1</title>
+<meta name="author" content="Dmitry Klementiev" />
+<meta name="generator" content="Org Mode" />
+<link rel='icon' type='image/x-icon' href='/images/favicon.ico'/>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<link rel='stylesheet' href='https://code.cdn.mozilla.net/fonts/fira.css'>
+<link rel='stylesheet' href='/css/site.css?v=2' type='text/css'/>
+<link rel='stylesheet' href='/css/custom.css' type='text/css'/>
+<link rel='stylesheet' href='/css/syntax-coloring.css' type='text/css'/>
+<script>
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.add("code-highlighted");
+         target.classList.add("code-highlighted");
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.remove("code-highlighted");
+         target.classList.remove("code-highlighted");
+       }
+     }
+// @license-end
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="/"> UP </a>
+ |
+ <a accesskey="H" href="/"> HOME </a>
+</div><header id="top" class="status">
+<div class='intro'>
+  <img src='/images/about/profile.png' alt='Dmitry' class='no-border'/>
+  <h1>
+    <span class="gray">Dmitry</span>
+    <span class="black">Klementiev</span>
+  </h1>
+  <p>Emacser</p>
+</div>
+
+<div class='nav'>
+<ul>
+<li><a href='/'>Blog</a>.</li>
+<li><a href='http://github.com/'>Github</a>.</li>
+<!-- <li><a href='https://www.reddit.com/user/'>Reddit</a>.</li> -->
+<!-- <li><a href='/index.xml'>RSS</a>.</li> -->
+<li><a href='/about/'>About</a></li>
+</ul>
+</div>
+</header>
+<main id="content" class="content">
+<header>
+<h1 class="title">Систем Крафтинг. Часть 1</h1>
+</header><p>
+В этом эпизоде я собираюсь рассказать о выборе пакетного менеджера, дистрибутива, редактора кода, оконного менеджера, и.т.д.
+</p>
+
+<p>
+Хотелось бы обратить внимание на то, что эта и все последующие части данного блога будут исключительно на русском языке (хотя мне бы очень хотелось их перевести). Причиной тому стало то, что я очень недолго учу английский и писать блог для меня немного сложновато.
+</p>
+
+<section id="outline-container-orgc030c09" class="outline-2">
+<h2 id="orgc030c09">Дистрибутив и пакетный менеджер</h2>
+<div class="outline-text-2" id="text-orgc030c09">
+<p>
+Изначально я выбирал из следующих вариантов:
+</p>
+<ul class="org-ul">
+<li>Gentoo</li>
+<li>Arch</li>
+<li>NixOS</li>
+<li>GuixSD</li>
+</ul>
+</div>
+
+<div id="outline-container-orgabbf679" class="outline-3">
+<h3 id="orgabbf679">Gentoo</h3>
+<div class="outline-text-3" id="text-orgabbf679">
+<p>
+Генту был идеальным вариантом, пока я не узнал о никс и гикс, но о них немного позже.
+</p>
+
+<p>
+Как по мне, у данного дистрибутива есть лишь один существенный минус, сборка из исходного кода. Сборка каждого пакета из исходников занимает очень много времени на моей машине, в особенности если это браузер по типу Firefox. Но у генту также есть множество бинарных пакетов.
+</p>
+
+<p>
+В остальном я выделял только плюсы. Сборка из исходного кода позволяла оптимизировать пакеты под мою машину. На gentoo проще всего определять свои пакеты которых нет в репозиториях (таковых очень мало).
+</p>
+
+<p>
+По мимо этого я также выделил следующие плюсы:
+</p>
+<ul class="org-ul">
+<li>OpenRC вместо SystemD - Я стараюсь избегать системд там, где это возможно. Если такой возможности нет, то я не стану капризничать =)</li>
+<li>Конструктор - Мне нравится то как происходит установка Gentoo. Я обожаю устанавливать что-то своими руками и когда система ведёт себя так, как это хочу я.</li>
+<li>Gentoo book - Увы, единственный конкурент Arch Wiki который мне известен.</li>
+<li>Большое кол-во пакетов</li>
+<li>Большая приспособленность к системному админимтрированию - т.е сюда входит определение собственных пакетов (бинарных в том числе)</li>
+</ul>
+
+<p>
+<b>Почему же я ушёл от генту?</b> Всё потому что я вовремя открыл для себя Nix и Guix.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org41e2f6a" class="outline-3">
+<h3 id="org41e2f6a">Arch</h3>
+<div class="outline-text-3" id="text-org41e2f6a">
+<p>
+Отличный дистрибутив, но след. вещи меня в нем не устроили:
+</p>
+<ul class="org-ul">
+<li>Нестабильность - Вот все хорошо работает, а вот ты запустил <code>pacman -Syu</code> и не работает нихуя. <i>НО хочется заметить что я бы мог просто делать резервные копии, и вы можете также (:</i></li>
+<li>Сложность определения собственных пакетов</li>
+<li>SystemD - Artix в свою очередь мне чем-то не угодил. А вот чем я уже не помню</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org3e2f0bf" class="outline-3">
+<h3 id="org3e2f0bf">NixOS &amp; GuixSD</h3>
+<div class="outline-text-3" id="text-org3e2f0bf">
+<p>
+Я считаю их почти идентичными, поэтому их выбор лишь дело вкуса.
+</p>
+
+<table>
+
+
+<colgroup>
+<col  class="org-left">
+
+<col  class="org-left">
+
+<col  class="org-left">
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><b>Nix</b></td>
+<td class="org-left"><b>Guix</b></td>
+</tr>
+
+<tr>
+<td class="org-left"><b>System initialization</b></td>
+<td class="org-left"><i>SystemD</i></td>
+<td class="org-left"><i>GNU Shepherd</i></td>
+</tr>
+
+<tr>
+<td class="org-left"><b>Scripting langauge</b></td>
+<td class="org-left"><i>Nix DSL</i></td>
+<td class="org-left"><i>Guile (Scheme)</i></td>
+</tr>
+
+<tr>
+<td class="org-left"><b>Proprietary packages</b></td>
+<td class="org-left"><i>Yes</i></td>
+<td class="org-left"><i>No (only third-party repos)</i></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+</main>
+<footer id="postamble" class="status">
+<div class='footer'>
+  Copyright © 2023 <a href='mailto:klementievdmitry@gmail.com'>Dmitry Klementiev.</a><br>
+  Inspired by <a href='https://nicolas.petton.fr'>https://nicolas.petton.fr</a> <br>
+  Last updated on Dec 09, 2023. Generated using <a href="https://www.gnu.org/software/emacs/">Emacs</a> 29.1 (<a href="https://orgmode.org">Org</a> mode 9.6.6).
+</div>
+</footer>
+</body>
+</html>
