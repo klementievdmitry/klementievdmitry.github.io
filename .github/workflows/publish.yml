@@ -19,7 +19,7 @@ jobs:
 
       - name: Publishing
         run: |
-          EMACS=emacs make
+          EMACS=emacs make -e
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
